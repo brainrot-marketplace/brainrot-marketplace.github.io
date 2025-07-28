@@ -1,39 +1,5 @@
-// Product data - easily add more items here
-const products = [
-  {
-    id: "p1",
-    title: "Nebula NFT Art",
-    price: "0.05 ETH",
-    image: "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=600&q=80",
-    wallets: {
-      ETH: "0x1234...abcd",
-      BTC: "1A1zP1...xyz",
-      USDT: "TXYZ...789"
-    }
-  },
-  {
-    id: "p2",
-    title: "Galactic Theme Skin",
-    price: "0.02 ETH",
-    image: "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=600&q=80",
-    wallets: {
-      ETH: "0xabcd...5678",
-      BTC: "3J98t1...abc",
-      USDT: "TYZX...123"
-    }
-  },
-  {
-    id: "p3",
-    title: "Starship Blueprint",
-    price: "0.10 ETH",
-    image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80",
-    wallets: {
-      ETH: "0xdead...beef",
-      BTC: "1BoatSLRH...def",
-      USDT: "TABC...456"
-    }
-  }
-];
+let products = [];
+let wallets = {};
 
 // DOM Elements
 const productsContainer = document.getElementById("products");
@@ -45,6 +11,21 @@ const confirmPaymentBtn = document.getElementById("confirmPaymentBtn");
 const discordInfo = document.getElementById("discordInfo");
 
 let currentProduct = null;
+
+// Fetch JSON files and initialize
+async function fetchData() {
+  try {
+    const [productsRes, walletsRes] = await Promise.all([
+      fetch('products.json'),
+      fetch('wallets.json')
+    ]);
+    products = await productsRes.json();
+    wallets = await walletsRes.json();
+    renderProducts();
+  } catch (err) {
+    console.error("Failed to load product or wallet data:", err);
+  }
+}
 
 // Render products
 function renderProducts() {
@@ -70,7 +51,7 @@ function openModal(productId) {
   modalTitle.textContent = `Buy "${currentProduct.title}"`;
   walletsDiv.innerHTML = "";
 
-  for (const [crypto, address] of Object.entries(currentProduct.wallets)) {
+  for (const [crypto, address] of Object.entries(wallets)) {
     const walletDiv = document.createElement("div");
     walletDiv.className = "wallet";
     walletDiv.textContent = `${crypto}: ${address}`;
@@ -116,18 +97,20 @@ productsContainer.onclick = function(e) {
   }
 };
 
-// Initialize
-renderProducts();
-
 // Starry background animation
-const canvas = document.getElementById("stars");
-const ctx = canvas.getContext("2d");
+const starsCanvas = document.getElementById("stars");
+const shootingCanvas = document.getElementById("shootingStars");
+const starsCtx = starsCanvas.getContext("2d");
+const shootingCtx = shootingCanvas.getContext("2d");
+
 let width, height;
 let stars = [];
+let shootingStars = [];
 
 function initCanvas() {
-  width = canvas.width = window.innerWidth;
-  height = canvas.height = window.innerHeight;
+  width = starsCanvas.width = shootingCanvas.width = window.innerWidth;
+  height = starsCanvas.height = shootingCanvas.height = window.innerHeight;
+
   stars = [];
   for (let i = 0; i < 200; i++) {
     stars.push({
@@ -139,17 +122,34 @@ function initCanvas() {
       direction: Math.random() < 0.5 ? -1 : 1
     });
   }
+
+  shootingStars = [];
+  for (let i = 0; i < 5; i++) {
+    shootingStars.push(createShootingStar());
+  }
+}
+
+function createShootingStar() {
+  return {
+    x: Math.random() * width,
+    y: Math.random() * height / 2,
+    length: Math.random() * 300 + 100,
+    speed: Math.random() * 10 + 6,
+    size: Math.random() * 1.2 + 0.5,
+    waitTime: Date.now() + Math.random() * 5000,
+    active: false
+  };
 }
 
 function drawStars() {
-  ctx.clearRect(0, 0, width, height);
+  starsCtx.clearRect(0, 0, width, height);
   stars.forEach(star => {
-    ctx.beginPath();
-    ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
-    ctx.shadowColor = 'white';
-    ctx.shadowBlur = 4;
-    ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-    ctx.fill();
+    starsCtx.beginPath();
+    starsCtx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
+    starsCtx.shadowColor = 'white';
+    starsCtx.shadowBlur = 4;
+    starsCtx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+    starsCtx.fill();
 
     star.x += star.speed * star.direction;
     if (star.x > width) star.x = 0;
@@ -158,7 +158,47 @@ function drawStars() {
   requestAnimationFrame(drawStars);
 }
 
+function drawShootingStars() {
+  shootingCtx.clearRect(0, 0, width, height);
+  let now = Date.now();
+
+  shootingStars.forEach(star => {
+    if (!star.active && now > star.waitTime) {
+      star.active = true;
+      star.x = Math.random() * width;
+      star.y = Math.random() * height / 2;
+      star.length = Math.random() * 300 + 100;
+      star.speed = Math.random() * 10 + 6;
+      star.size = Math.random() * 1.2 + 0.5;
+    }
+
+    if (star.active) {
+      shootingCtx.beginPath();
+      shootingCtx.strokeStyle = 'rgba(255,255,255,0.8)';
+      shootingCtx.lineWidth = star.size;
+      shootingCtx.shadowColor = 'white';
+      shootingCtx.shadowBlur = 8;
+      shootingCtx.moveTo(star.x, star.y);
+      shootingCtx.lineTo(star.x - star.length, star.y + star.length * 0.3);
+      shootingCtx.stroke();
+
+      star.x += star.speed;
+      star.y += star.speed * 0.3;
+
+      if (star.x > width + star.length || star.y > height) {
+        star.active = false;
+        star.waitTime = now + Math.random() * 8000 + 2000;
+      }
+    }
+  });
+
+  requestAnimationFrame(drawShootingStars);
+}
+
 window.addEventListener("resize", initCanvas);
 
+// Initialize everything
+fetchData();
 initCanvas();
 drawStars();
+drawShootingStars();
