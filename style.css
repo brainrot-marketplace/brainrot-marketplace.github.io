@@ -8,28 +8,30 @@
 body, html {
   height: 100%;
   font-family: 'Poppins', sans-serif;
-  color: white;
-  background: #000;
+  color: #e0e0ff;
+  background: radial-gradient(ellipse at center, #0b0a2b 0%, #0a0a0a 100%);
   overflow-x: hidden;
   position: relative;
 }
 
-canvas#stars {
+canvas#stars, canvas#shootingStars {
   position: fixed;
   top: 0; left: 0;
   width: 100%;
   height: 100%;
-  z-index: -1;
-  background: radial-gradient(ellipse at center, #000000 0%, #0a0a0a 100%);
+  z-index: -2;
+  pointer-events: none;
 }
 
 header {
   text-align: center;
   padding: 2rem 1rem 1rem;
   font-weight: 600;
-  font-size: 2.5rem;
-  letter-spacing: 0.1em;
+  font-size: 2.8rem;
+  letter-spacing: 0.15em;
   user-select: none;
+  color: #aabaff;
+  text-shadow: 0 0 10px #7f88ffaa;
 }
 
 .product-grid {
@@ -42,20 +44,21 @@ header {
 }
 
 .product-card {
-  background: rgba(255 255 255 / 0.1);
+  background: rgba(255 255 255 / 0.07);
   border-radius: 20px;
-  backdrop-filter: blur(15px);
-  box-shadow: 0 0 40px rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 40px rgba(120, 120, 255, 0.15);
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
+  color: #c8c8ff;
 }
 
 .product-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 0 60px rgba(255,255,255,0.15);
+  box-shadow: 0 0 80px #6b6fffcc;
 }
 
 .product-card img {
@@ -63,36 +66,41 @@ header {
   border-radius: 15px;
   margin-bottom: 1rem;
   object-fit: cover;
-  aspect-ratio: 4/3;
+  aspect-ratio: 4 / 3;
+  box-shadow: 0 0 15px #8a8affaa;
 }
 
 .product-card h3 {
   font-weight: 600;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   margin-bottom: 0.25rem;
+  text-shadow: 0 0 4px #9c9cffaa;
 }
 
 .product-card p.price {
-  font-weight: 600;
-  color: #39ff14;
+  font-weight: 700;
+  color: #72ffb8;
   margin-bottom: 1rem;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
+  text-shadow: 0 0 4px #72ffb8cc;
 }
 
 .btn-buy {
   margin-top: auto;
   padding: 0.75rem;
-  background: #39ff14;
+  background: linear-gradient(135deg, #72ffb8, #4da6ff);
   border: none;
-  border-radius: 12px;
+  border-radius: 15px;
   font-weight: 700;
-  color: #000;
+  color: #002b40;
   font-size: 1rem;
-  transition: background-color 0.3s ease;
+  box-shadow: 0 0 12px #4db8ffcc;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .btn-buy:hover {
-  background: #28cc0f;
+  background: linear-gradient(135deg, #4da6ff, #72ffb8);
+  box-shadow: 0 0 20px #72ffb8ff;
 }
 
 /* Modal Styles */
@@ -101,7 +109,7 @@ header {
   top: 0; left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0,0,0,0.85);
+  background: rgba(10,10,30,0.95);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -113,15 +121,15 @@ header {
 }
 
 .modal-content {
-  background: rgba(255 255 255 / 0.1);
-  backdrop-filter: blur(20px);
+  background: rgba(255 255 255 / 0.08);
+  backdrop-filter: blur(25px);
   border-radius: 25px;
   width: 90%;
   max-width: 480px;
   padding: 2rem;
-  color: white;
+  color: #ddeeff;
   text-align: center;
-  box-shadow: 0 0 50px rgba(255,255,255,0.15);
+  box-shadow: 0 0 50px #5577ffcc;
   position: relative;
 }
 
@@ -130,9 +138,14 @@ header {
   top: 15px; right: 20px;
   font-size: 2rem;
   font-weight: 700;
-  color: white;
+  color: #ddeeffcc;
   cursor: pointer;
   user-select: none;
+  transition: color 0.3s ease;
+}
+
+.close:hover {
+  color: #88aaff;
 }
 
 #wallets {
@@ -143,39 +156,45 @@ header {
 }
 
 .wallet {
-  background: rgba(255 255 255 / 0.05);
+  background: rgba(255 255 255 / 0.12);
   padding: 1rem;
   border-radius: 15px;
   user-select: all;
   cursor: pointer;
+  font-weight: 600;
+  color: #aaffee;
+  box-shadow: 0 0 15px #5ad8d8cc;
   transition: background-color 0.3s ease;
 }
 
 .wallet:hover {
-  background-color: rgba(255,255,255,0.15);
+  background-color: rgba(170, 255, 238, 0.3);
 }
 
 .btn-primary {
-  background-color: #39ff14;
-  color: #000;
+  background: linear-gradient(135deg, #72ffb8, #4da6ff);
+  color: #002b40;
   font-weight: 700;
   border: none;
   padding: 0.75rem 1.5rem;
-  border-radius: 12px;
+  border-radius: 15px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
   font-size: 1.1rem;
   width: 100%;
+  box-shadow: 0 0 15px #4db8ffcc;
 }
 
 .btn-primary:hover {
-  background-color: #28cc0f;
+  background: linear-gradient(135deg, #4da6ff, #72ffb8);
+  box-shadow: 0 0 25px #72ffb8ff;
 }
 
 .discord-instruction {
   margin-top: 1.5rem;
-  font-size: 0.9rem;
-  color: #9fff5f;
+  font-size: 0.95rem;
+  color: #aaffee;
+  text-shadow: 0 0 5px #4db8ffcc;
 }
 
 .discord-instruction.hidden {
@@ -185,7 +204,7 @@ header {
 /* Responsive */
 @media (max-width: 480px) {
   header {
-    font-size: 2rem;
+    font-size: 2.2rem;
   }
   .product-card {
     padding: 1rem;
