@@ -1,0 +1,193 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0; padding: 0;
+}
+
+body, html {
+  height: 100%;
+  font-family: 'Poppins', sans-serif;
+  color: white;
+  background: #000;
+  overflow-x: hidden;
+  position: relative;
+}
+
+canvas#stars {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: radial-gradient(ellipse at center, #000000 0%, #0a0a0a 100%);
+}
+
+header {
+  text-align: center;
+  padding: 2rem 1rem 1rem;
+  font-weight: 600;
+  font-size: 2.5rem;
+  letter-spacing: 0.1em;
+  user-select: none;
+}
+
+.product-grid {
+  max-width: 1200px;
+  margin: 0 auto 4rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+  gap: 2rem;
+  padding: 0 1rem;
+}
+
+.product-card {
+  background: rgba(255 255 255 / 0.1);
+  border-radius: 20px;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 0 40px rgba(255,255,255,0.05);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0 60px rgba(255,255,255,0.15);
+}
+
+.product-card img {
+  width: 100%;
+  border-radius: 15px;
+  margin-bottom: 1rem;
+  object-fit: cover;
+  aspect-ratio: 4/3;
+}
+
+.product-card h3 {
+  font-weight: 600;
+  font-size: 1.3rem;
+  margin-bottom: 0.25rem;
+}
+
+.product-card p.price {
+  font-weight: 600;
+  color: #39ff14;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.btn-buy {
+  margin-top: auto;
+  padding: 0.75rem;
+  background: #39ff14;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  color: #000;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.btn-buy:hover {
+  background: #28cc0f;
+}
+
+/* Modal Styles */
+.modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: rgba(255 255 255 / 0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 25px;
+  width: 90%;
+  max-width: 480px;
+  padding: 2rem;
+  color: white;
+  text-align: center;
+  box-shadow: 0 0 50px rgba(255,255,255,0.15);
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 15px; right: 20px;
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+}
+
+#wallets {
+  margin: 1rem 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.wallet {
+  background: rgba(255 255 255 / 0.05);
+  padding: 1rem;
+  border-radius: 15px;
+  user-select: all;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.wallet:hover {
+  background-color: rgba(255,255,255,0.15);
+}
+
+.btn-primary {
+  background-color: #39ff14;
+  color: #000;
+  font-weight: 700;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 1.1rem;
+  width: 100%;
+}
+
+.btn-primary:hover {
+  background-color: #28cc0f;
+}
+
+.discord-instruction {
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  color: #9fff5f;
+}
+
+.discord-instruction.hidden {
+  display: none;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  header {
+    font-size: 2rem;
+  }
+  .product-card {
+    padding: 1rem;
+  }
+}
