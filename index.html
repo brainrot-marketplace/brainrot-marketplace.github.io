@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Galaxy Marketplace</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <canvas id="stars"></canvas>
+
+  <header>
+    <h1>Galaxy Marketplace</h1>
+  </header>
+
+  <main>
+    <div id="products" class="product-grid"></div>
+  </main>
+
+  <!-- Modal -->
+  <div id="paymentModal" class="modal hidden">
+    <div class="modal-content glass">
+      <span id="modalClose" class="close">&times;</span>
+      <h2 id="modalTitle"></h2>
+      <p>Select a crypto payment method and send payment to the address below:</p>
+      <div id="wallets"></div>
+      <button id="confirmPaymentBtn" class="btn-primary">I have sent the payment</button>
+      <p id="discordInfo" class="discord-instruction hidden">
+        Please DM <strong>@YourDiscordUser#0000</strong> on Discord with proof of purchase and your crypto address.
+      </p>
+    </div>
+  </div>
+
+<script src="script.js"></script>
+</body>
+</html>
